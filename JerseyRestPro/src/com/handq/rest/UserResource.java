@@ -72,12 +72,12 @@ public class UserResource {
 	@POST
 	@Path("/addUser")
 	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes("application/octet-stream")
-	public User AddUser(Map<String, Object> request){
+	@Consumes({MediaType.APPLICATION_JSON})
+	public User AddUser(User request){
 		System.out.println("------------------------------");
 		User user = new User();
-		user.setName(request.get("name").toString());
-		user.setAge(Integer.valueOf(request.get("age").toString()));
+		user.setName(request.getName());
+		user.setAge(request.getAge());
 		user.setId("2222"); 
 		user = ResourceUser.addUser(user);
 		return user;
