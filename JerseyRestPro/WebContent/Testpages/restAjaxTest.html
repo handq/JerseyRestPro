@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试rest之ajax的调用（jquery）</title>
+<script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+</head>
+<script type="text/javascript">
+	this.myurl = "http://handq.com:8080/rest/users";
+	$.ajax({  
+        type: 'GET',  
+        url: this.myurl + '/' + 1000,  
+        contentType: 'application/json',  
+        success: function(data,status,response){
+        	alert(data.name+"=="+data.id+"=="+data.age);
+        	alert(status);
+    		alert(response.responseText);
+    		alert(response.responseJSON);
+    		alert(response.status);
+    		alert(response.statusText);
+        },  
+        error: function(data,status,response) {
+        	alert(data);
+        	alert(status);
+        	alert(response);
+        },  
+        timeout:60000  
+    }); 
+	
+	
+</script>
+<body>
+<div id="ces">111</div>
+</body>
+</html>

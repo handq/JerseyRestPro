@@ -8,6 +8,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,6 +33,7 @@ public class UserResource {
 	private static Logger logger =  LoggerFactory.getLogger(UserResource.class);
 	@Context
 	private UriInfo uriInfo;
+	
 	/**
 	 * 获取用户
 	 */
@@ -73,12 +75,58 @@ public class UserResource {
 	@Path("/addUser")
 	@Produces({MediaType.APPLICATION_JSON})
 	@Consumes({MediaType.APPLICATION_JSON})
-	public User AddUser(User request){
+	public User AddUser(User user){
+		User user1 = new User();
+		user1.setName(user.getName());
+		user1.setAge(user.getAge());
+		user1.setId("2222"); 
+		user1 = ResourceUser.addUser(user);
+		return user;
+	}
+	/**
+	 * 新增用户2
+	 */
+	@POST
+	@Path("/saveUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User saveUser(@QueryParam("name") String name,@QueryParam("age") int age,@QueryParam("id") String id){
+		User user1 = new User();
+		user1.setName(name);
+		user1.setAge(age);
+		user1.setId(id); 
+		user1 = ResourceUser.addUser(user1);
+		return user1;
+	}
+	/**
+	 * 更新用户
+	 */
+	@PUT
+	@Path("/putUser")
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_JSON})
+	public User putUser(User request){
 		System.out.println("------------------------------");
 		User user = new User();
 		user.setName(request.getName());
 		user.setAge(request.getAge());
 		user.setId("2222"); 
+		user = ResourceUser.addUser(user);
+		return user;
+	}
+	/**
+	 * 更新用户2
+	 */
+	@PUT
+	@Path("/updateUser")
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_JSON})
+	public User updateUser(@QueryParam("name") String name,@QueryParam("age") int age,@QueryParam("id") String id){
+		System.out.println("------------------------------");
+		User user = new User();
+		user.setName(name);
+		user.setAge(age);
+		user.setId(id); 
 		user = ResourceUser.addUser(user);
 		return user;
 	}

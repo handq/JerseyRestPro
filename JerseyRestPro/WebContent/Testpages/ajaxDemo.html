@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>-测试rest之ajax的调用（js原生）</title>
+<script type="text/javascript">
+var req=null; 
+//This function initializes XHR
+function initXHR() {
+	if (navigator.appName.indexOf("Microsoft")> -1 ) {
+		try{
+		　req=new ActiveXObject("Microsoft.XMLHTTP"); 
+		}catch(e1){
+		　alert("failed to create XHR in IE"); 
+		}
+		}else{
+		try{
+		　req=new XMLHttpRequest(); 
+		}catch(error){
+		　alert("failed to create XHR in FireFox"); 
+		}
+	}
+}
+
+//get employee list
+function getEmployeeList(listurl){
+	initXHR(); 
+	req.open("GET", listurl, true); 
+	req.onreadystatechange=handleEmpListResponse; 
+	req.send(null); 
+}
+
+
+function handleEmpListResponse(){
+//if Response is complete
+if(req.readyState==4){
+//response is OK
+if(req.status==200){
+　	var pstr=""; 
+　	var response=req.responseText; //获得返回值里的Text数据
+　	var jsonStr = req.responseJSON;
+　	var status = req.status;
+　	var statusStr = req.statusText;
+　	alert(jsonStr+"--"+status+"--"+statusStr);
+　	var bj =eval('(' + response + ')');   //将数据转化为object（json对象）
+　	alert(response); //打印返回值
+　	alert(bj.id);//打印对象.属性
+　}
+　document.getElementById("messageDiv").innerHTML=response; 
+}else{
+　document.getElementById("messageDiv").innerHTML=" <SPAN style='color:#FF0000; font-size:12pt; text-decoration:none; '>Invalid Employee ID. </SPAN>"; 
+}
+}
+
+</script>
+
+</head>
+<body>
+<center>
+	<input type="button" value="getEmployee-List" onclick="getEmployeeList('http://handq.com:8080/rest/users/1000')">
+	 <br> 
+	<div id="messageDiv"> 
+	</div>
+</center>
+</body>
+</html>
